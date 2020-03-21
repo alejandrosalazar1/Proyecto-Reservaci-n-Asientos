@@ -6,6 +6,8 @@ char asientos[32][6];
 int getMenuOption();
 void initializeSeats();
 void showSeats();
+char flight_number[256];
+void readFlightNumber();
 
 
 int main(){
@@ -42,4 +44,23 @@ void showSeats() {
   }
 }
 
+void readFlightNumber(){
+  while (strlen(flight_number)!= 6){
+    printf("Ingrese numero de vuelo: ");
+    fgets(flight_number,sizeof(flight_number),stdin);
+    if (strtlen(flight_number)!=6){
+      printf("Numero invalido \n");
+    } else {
+      printf("Vuelo aceptado\n");
+    }
+  }
+}
 
+void clrScreen() {
+  system("@cls||clear");
+}
+
+void waitEnter(){
+  printf("Presione Enter\n");
+  getchar();
+}
