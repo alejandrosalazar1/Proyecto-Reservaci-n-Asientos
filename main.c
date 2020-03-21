@@ -11,8 +11,35 @@ void readFlightNumber();
 
 
 int main(){
-  int option = getMenuOption();
-  printf("%d\n", option);
+    readFlightNumber();
+
+    int opcion=0;
+    while (opcion !=4){
+      option = getMenuOption();
+      switch (option){
+        case 1: 
+        // Reservar asiento
+          break;
+
+        case 2:
+        // Ver asientos disponibles
+          break;
+        
+        case 3:
+        // Ver resumen
+          break;
+
+        case 4:
+        // Salir
+          printf("Gracias por usar el programa! \n");
+          break;
+
+        default:
+        //Opcion incorrecta
+          printf("La opcion es invalida. Por favor ingrese una opcion valida. \n")
+          break;
+      }
+  }
 }
 
 int getMenuOption(){
