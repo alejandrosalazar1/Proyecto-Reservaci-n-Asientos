@@ -9,7 +9,7 @@ void showSeats();
 char flight_number[256];
 void readFlightNumber();
 void clrScreen();
-void waitforEnter();
+void waitEnter();
 void makeReservation();
 int *interpretSeat(char*);
 char *getReservationSeat();
@@ -19,32 +19,45 @@ int validateSeat(char*);
 
 
 int main(){
+    clrScreen();
     readFlightNumber();
 
     int option=0;
     while (option !=4){
+
       option = getMenuOption();
       switch (option){
         case 1: 
         // Reservar asiento
+          clrScreen();
+          makeReservation();
+          waitEnter();
           break;
 
         case 2:
         // Ver asientos disponibles
+          clrScreen();
+          waitEnter();
           break;
         
         case 3:
         // Ver resumen
+          clrScreen();
+          waitEnter();
           break;
 
         case 4:
         // Salir
+          clrScreen();
           printf("Gracias por usar el programa! \n");
           break;
 
         default:
         //Opcion incorrecta
           printf("La opcion es invalida. Por favor ingrese una opcion valida. \n");
+          printf("Presione Enter \n");
+          getchar();
+
           break;
       }
   }
@@ -116,7 +129,7 @@ char *getReservationSeat(){
     valid = validateSeat(seat);
     if(valid==1){
       printf("Asiento invalido, por favor ingrese otro asiento. \n");
-      waitforEnter();
+      waitEnter();
     }
   }
   return seat;
@@ -155,11 +168,9 @@ int *interpretSeat(char *selectedSeat){
 }
 
 void checkSeat(int fila, int columna){
-  
 }
 
 void reserveSeat(int fila, int columna){
-
 }
 
 int validateSeat(char* selectedSeat){
