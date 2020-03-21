@@ -13,7 +13,7 @@ void waitEnter();
 void makeReservation();
 int *interpretSeat(char*);
 char *getReservationSeat();
-void checkSeat(int, int);
+int checkSeat(int, int);
 void reserveSeat(int, int);
 int validateSeat(char*);
 
@@ -64,13 +64,16 @@ int main(){
 }
 
 int getMenuOption(){
+  clrScreen();
   int op;
-  printf("Bienvenido a la aerolinea: \n");
+  printf("Bienvenido a la aerolinea.  Vuelo#%s \n",flight_number);
   printf("1. Reservar asiento \n");
-  printf("2. Ver disponibilidad de asientos \n");
-  printf("3. Salir \n");
+  printf("2. Ver disponibilidad de asientos. \n");
+  printf("3. Ver resumen. \n");
+  printf("4. Salir. \n");
   printf("Elija una opcion: \n");
   scanf("%d", &op);
+  getchar();
   return op;
 }
 
@@ -87,7 +90,6 @@ void showSeats() {
   printf("___________________________\n");
   for(int i=0; i<32; i++){
     printf("| %2d | %c | %c | %c | %c | %c | %c |\n", i+1,asientos[i][0],asientos[i][1],asientos[i][2],asientos[i][3],asientos[i][4],asientos[i][5]);
-    
   }
 }
 
@@ -97,8 +99,10 @@ void readFlightNumber(){
     fgets(flight_number,sizeof(flight_number),stdin);
     if (strlen(flight_number)!=6){
       printf("Numero invalido \n");
+      waitEnter();
     } else {
-      printf("Vuelo aceptado\n\n");
+      //printf("Vuelo aceptado\n\n");
+      initializeSeats();
     }
   }
 }
@@ -108,14 +112,30 @@ void clrScreen() {
 }
 
 void waitEnter(){
-  printf("Presione Enter\n");
+  printf("Presione Enter para continuar...\n");
   getchar();
 }
 
 void makeReservation(){
-  char *selectedSeat = getReservationSeat();
-  int *numberSeats = interpretSeat(selectedSeat);
-  printf("Posicion: %d-%d",numberSeats[0],numberSeats[1]);
+  int reservado = 1;
+  int selectedRow;
+  int selectedColumn;
+  while (reservado ==1){
+    clrScreen();
+    char *selectedSeat = getReservationSeat();
+    if (!strcmp(selectedSeat,"menu")){
+      printf("Va a regresar al menu\n");
+      break;
+    }
+    int* numberSeats = interpretSeat(selectedSeat);
+    selectedRow = numberSeats[0];
+    selectedColumn = numberSeats[1];
+    if (checkSeat(selectedRow,selectedColumn) == 0) {
+      reservado= 0;
+      reserveSeat(selectedRow,selectedColumn);
+    }
+  }
+  
 }
 
 char *getReservationSeat(){
@@ -123,9 +143,8 @@ char *getReservationSeat(){
   int valid =1;
   while (valid==1){
     clrScreen();
-    printf("Ingrese el numero de asieto que desea reservar: \n");
+    printf("Ingrese el numero de asiento que desea reservar: \n");
     gets(seat);
-
     valid = validateSeat(seat);
     if(valid==1){
       printf("Asiento invalido, por favor ingrese otro asiento. \n");
@@ -164,13 +183,22 @@ int *interpretSeat(char *selectedSeat){
   fila = fila - 1;
   position[0] = fila;
   position[1] = columna;
+
   return position;
 }
 
-void checkSeat(int fila, int columna){
+int checkSeat(int fila, int columna){
+  if (asientos[fila][columna]=='0'){
+    return 0;
+  } else {
+    printf("El asiento esta reservado. Por favor ingrese otro asiento:");
+    waitEnter();
+    return 1;
+  }
 }
 
 void reserveSeat(int fila, int columna){
+  asientos[fila][columna]= 'X';
 }
 
 int validateSeat(char* selectedSeat){
