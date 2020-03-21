@@ -2,21 +2,26 @@
 #include <stdlib.h>
 
 int main(){
-  int opcion;
-  char numero_vuelo[5];
-  bienvenida:
-  printf("Bienvenido, ingrese numero de vuelo:\n");
-  scanf("%c", &numero_vuelo);
-  
-  if ((strlen(numero_vuelo)==5)){
-    goto bienvenida; 
-    
-  } else { 
-    while(opcion !=4){
-    printf("====================\n");
-    printf("1. Reservar asientos \n 2. Ver asientos disponibles \n 3. Ver Resumen \n 4. Salir \n ¿Que desea realizar? \n-> ");
-  }
-  }
-  
+char asientos[32][6];
+int getMenuOption();
+void initializeSeats();
+void showSeats();
+
+int main
+{
+  int option = getMenuOption();
+  printf("%d\n", option);
+}
+
+int getMenuOption(){
+  int op;
+  printf("Bienvenido a la aerolinea \n");
+  printf("1. Reservar asiento \n");
+  printf("2. Ver disponibilidad de asientos \n")
+  printf("3. Salir \n")
+  printf("Elija una opcion: \n");
+
+  scanf_s("%d", &op);
+  return op;
 }
 
