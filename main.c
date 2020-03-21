@@ -49,7 +49,6 @@ int getMenuOption(){
   printf("2. Ver disponibilidad de asientos \n");
   printf("3. Salir \n");
   printf("Elija una opcion: \n");
-
   scanf("%d", &op);
   return op;
 }
@@ -75,10 +74,10 @@ void readFlightNumber(){
   while (strlen(flight_number)!= 6){
     printf("Ingrese numero de vuelo: ");
     fgets(flight_number,sizeof(flight_number),stdin);
-    if (strtlen(flight_number)!=6){
+    if (strlen(flight_number)!=6){
       printf("Numero invalido \n");
     } else {
-      printf("Vuelo aceptado\n");
+      printf("Vuelo aceptado\n\n");
     }
   }
 }
@@ -91,3 +90,27 @@ void waitEnter(){
   printf("Presione Enter\n");
   getchar();
 }
+
+void makeReservation(){
+  char *selectedSeat = getReservationSeat();
+  int *numberSeats = interpretSeat(selectedSeat);
+  printf("Posicion: %d-%d",numberSeats[0],numberSeats[1])
+}
+
+char *getReservationSeat(){
+  char* seat = malloc(3*sizeof(char));
+  int valid =1;
+  while (valid==1){
+    clrScreen();
+    printf("Ingrese el numero de asieto que desea reservar: \n");
+    gets(seat);
+
+    valid = validateSeat(seat);
+    if(valid==1){
+      printf("Asiento invalido, por favor ingrese otro asiento. \n");
+      waitforEnter();
+    }
+  }
+  return seat;
+}
+
