@@ -13,6 +13,9 @@ void waitforEnter();
 void makeReservation();
 int *interpretSeat(char*);
 char *getReservationSeat();
+void checkSeat(int, int);
+void reserveSeat(int, int);
+int validateSeat(char*);
 
 
 int main(){
@@ -149,6 +152,50 @@ int *interpretSeat(char *selectedSeat){
   position[0] = fila;
   position[1] = columna;
   return position;
+}
+
+void checkSeat(int fila, int columna){
+  
+}
+
+void reserveSeat(int fila, int columna){
+
+}
+
+int validateSeat(char* selectedSeat){
+  int columna =0;
+  int fila=0;
+  char letra;
+  char numbers[2];
+
+  if (strlen(selectedSeat)==2 || strlen(selectedSeat)==3){
+    if (strlen(selectedSeat)==2){
+      letra = selectedSeat[0];
+      numbers[0] = selectedSeat[1];
+      if ((letra >='A' && letra <= 'F')|| (letra >='a' && letra <= 'f')){
+        fila= atoi(numbers);
+    if (fila >=1 && fila<=32){
+      return 0;
+      }
+    }
+    return 1;
+  }
+  else{
+    letra = selectedSeat[0];
+    numbers[0] = selectedSeat[1];
+    numbers[1] = selectedSeat[2];
+    if ((letra >= 'A' && letra <= 'F') || (letra >= 'a' && letra <= 'f')){
+      fila = atoi(numbers);
+      if (fila >=1 && fila <=32){
+        return 0;
+      }
+    }
+    return 1;
+  }
+  }
+  else {
+    return 1;
+  }
 }
 
 
