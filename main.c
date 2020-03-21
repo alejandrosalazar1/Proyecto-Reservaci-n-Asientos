@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 
 char asientos[32][6];
 int getMenuOption();
@@ -8,6 +8,11 @@ void initializeSeats();
 void showSeats();
 char flight_number[256];
 void readFlightNumber();
+void clrScreen();
+void waitforEnter();
+void makeReservation();
+int *interpretSeat(char*);
+char *getReservationSeat();
 
 
 int main(){
@@ -94,7 +99,7 @@ void waitEnter(){
 void makeReservation(){
   char *selectedSeat = getReservationSeat();
   int *numberSeats = interpretSeat(selectedSeat);
-  printf("Posicion: %d-%d",numberSeats[0],numberSeats[1])
+  printf("Posicion: %d-%d",numberSeats[0],numberSeats[1]);
 }
 
 char *getReservationSeat(){
@@ -113,4 +118,37 @@ char *getReservationSeat(){
   }
   return seat;
 }
+
+int *interpretSeat(char *selectedSeat){
+  int columna = 0;
+  int fila = 0;
+  char letra;
+  char numbers[2];
+  int position[2];
+  if (strlen(selectedSeat)==2){
+    letra = selectedSeat[0];
+    numbers[0] = selectedSeat[1];
+    if (letra >= 'A' && letra <= 'Z'){
+      columna = letra - 'A';
+    } else if (letra >= 'a' && letra <= 'z'){
+      columna = letra - 'a';
+    }
+    fila = atoi(numbers);
+  } else {
+    letra = selectedSeat[0];
+    numbers[0]= selectedSeat[1];
+    numbers[1]= selectedSeat[2];
+    if (letra>='A'&& letra<= 'Z'){
+      columna = letra - 'A';
+    } else if (letra >= 'a'&& letra <= 'z'){
+      columna = letra - 'a';
+    }
+    fila = atoi(numbers);
+  }
+  fila = fila - 1;
+  position[0] = fila;
+  position[1] = columna;
+  return position;
+}
+
 
