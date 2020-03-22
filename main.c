@@ -37,6 +37,7 @@ int main(){
         case 2:
         // Ver asientos disponibles
           clrScreen();
+          showSeats();
           waitEnter();
           break;
         
@@ -66,7 +67,7 @@ int main(){
 int getMenuOption(){
   clrScreen();
   int op;
-  printf("Bienvenido a la aerolinea.  Vuelo#%s \n",flight_number);
+  printf("Bienvenido a la Aerolinea GA    Vuelo#%s \n",flight_number);
   printf("1. Reservar asiento \n");
   printf("2. Ver disponibilidad de asientos. \n");
   printf("3. Ver resumen. \n");
@@ -95,6 +96,7 @@ void showSeats() {
 
 void readFlightNumber(){
   while (strlen(flight_number)!= 6){
+    clrScreen();
     printf("Ingrese numero de vuelo: ");
     fgets(flight_number,sizeof(flight_number),stdin);
     if (strlen(flight_number)!=6){
@@ -133,6 +135,7 @@ void makeReservation(){
     if (checkSeat(selectedRow,selectedColumn) == 0) {
       reservado= 0;
       reserveSeat(selectedRow,selectedColumn);
+      printf("Reserva exitosa del asiento: %s \n", selectedSeat);
     }
   }
   
@@ -145,9 +148,10 @@ char *getReservationSeat(){
     clrScreen();
     printf("Ingrese el numero de asiento que desea reservar: \n");
     gets(seat);
+
     valid = validateSeat(seat);
     if(valid==1){
-      printf("Asiento invalido, por favor ingrese otro asiento. \n");
+      printf("Asiento invalido, por favor ingrese otro asiento o ingrese la palabra <menu> para regresar al menu.\n");
       waitEnter();
     }
   }
@@ -160,6 +164,7 @@ int *interpretSeat(char *selectedSeat){
   char letra;
   char numbers[2];
   int position[2];
+
   if (strlen(selectedSeat)==2){
     letra = selectedSeat[0];
     numbers[0] = selectedSeat[1];
@@ -207,33 +212,39 @@ int validateSeat(char* selectedSeat){
   char letra;
   char numbers[2];
 
-  if (strlen(selectedSeat)==2 || strlen(selectedSeat)==3){
-    if (strlen(selectedSeat)==2){
-      letra = selectedSeat[0];
-      numbers[0] = selectedSeat[1];
-      if ((letra >='A' && letra <= 'F')|| (letra >='a' && letra <= 'f')){
-        fila= atoi(numbers);
-    if (fila >=1 && fila<=32){
-      return 0;
-      }
-    }
-    return 1;
+  if(!strcmp(selectedSeat, "menu")){
+    return 0;
   }
   else{
-    letra = selectedSeat[0];
-    numbers[0] = selectedSeat[1];
-    numbers[1] = selectedSeat[2];
-    if ((letra >= 'A' && letra <= 'F') || (letra >= 'a' && letra <= 'f')){
-      fila = atoi(numbers);
-      if (fila >=1 && fila <=32){
+
+    if (strlen(selectedSeat)==2 || strlen(selectedSeat)==3){
+      if (strlen(selectedSeat)==2){
+        letra = selectedSeat[0];
+        numbers[0] = selectedSeat[1];
+        if ((letra >='A' && letra <= 'F')|| (letra >='a' && letra <= 'f')){
+          fila= atoi(numbers);
+      if (fila >=1 && fila<=32){
         return 0;
+        }
       }
+      return 1;
     }
-    return 1;
-  }
-  }
-  else {
-    return 1;
+    else{
+      letra = selectedSeat[0];
+      numbers[0] = selectedSeat[1];
+      numbers[1] = selectedSeat[2];
+      if ((letra >= 'A' && letra <= 'F') || (letra >= 'a' && letra <= 'f')){
+        fila = atoi(numbers);
+        if (fila >=1 && fila <=32){
+          return 0;
+        }
+      }
+      return 1;
+    }
+    }
+    else {
+      return 1;
+    }
   }
 }
 
