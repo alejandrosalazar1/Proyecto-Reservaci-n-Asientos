@@ -16,6 +16,7 @@ char *getReservationSeat();
 int checkSeat(int, int);
 void reserveSeat(int, int);
 int validateSeat(char*);
+void showSummary();
 
 
 int main(){
@@ -44,6 +45,7 @@ int main(){
         case 3:
         // Ver resumen
           clrScreen();
+          showSummary();
           waitEnter();
           break;
 
@@ -56,8 +58,7 @@ int main(){
         default:
         //Opcion incorrecta
           printf("La opcion es invalida. Por favor ingrese una opcion valida. \n");
-          printf("Presione Enter \n");
-          getchar();
+          waitEnter();
 
           break;
       }
@@ -87,6 +88,8 @@ void initializeSeats(){
 }
 
 void showSeats() {
+  clrScreen();
+  printf("Vuelo #%S\n", flight_number);
   printf("|     | A | B | C | E | F |\n");
   printf("___________________________\n");
   for(int i=0; i<32; i++){
@@ -97,7 +100,7 @@ void showSeats() {
 void readFlightNumber(){
   while (strlen(flight_number)!= 6){
     clrScreen();
-    printf("Ingrese numero de vuelo: ");
+    printf("Ingrese numero de vuelo (5 caracteres): ");
     fgets(flight_number,sizeof(flight_number),stdin);
     if (strlen(flight_number)!=6){
       printf("Numero invalido \n");
@@ -146,6 +149,7 @@ char *getReservationSeat(){
   int valid =1;
   while (valid==1){
     clrScreen();
+    printf("Vuelo #%s\n", flight_number);
     printf("Ingrese el numero de asiento que desea reservar: \n");
     gets(seat);
 
@@ -248,4 +252,29 @@ int validateSeat(char* selectedSeat){
   }
 }
 
+void showSummary(){
+  int reservados = 0;
+  int libres = 0;
+  double porcentajeReservados;
+  double porcentajeLibres;
+
+  printf("Vuelo #%s\n", flight_number);
+
+  for(int i=0; i <32; i++){
+    for(int j=0; j<6; j++){
+      if (asientos[i][j] == '0'){
+        libres +=1;
+      }
+      else{
+        reservados +=1;
+      }
+    }
+  }
+
+  porcentajeReservados = 100.0 * ((double) reservados / 192.0);
+  porcentajeLibres = 100.0 * ((double) libres / 192.0);
+
+  printf("Asientos Reservados: %d/192 [%.1f%%]\n", reservados, porcentajeReservados);
+  printf("Asientos Libres: %d/192 [%.1f%%]\n", libres, porcentajeLibres);
+}
 
