@@ -17,6 +17,7 @@ int checkSeat(int, int);
 void reserveSeat(int, int);
 int validateSeat(char*);
 void showSummary();
+void suggestSeat();
 
 
 int main(){
@@ -89,9 +90,8 @@ void initializeSeats(){
 
 void showSeats() {
   clrScreen();
-  printf("Vuelo #%S\n", flight_number);
-  printf("|     | A | B | C | E | F |\n");
-  printf("___________________________\n");
+  printf("|    | A | B | C | D | E | F |\n");
+  printf("______________________________\n");
   for(int i=0; i<32; i++){
     printf("| %2d | %c | %c | %c | %c | %c | %c |\n", i+1,asientos[i][0],asientos[i][1],asientos[i][2],asientos[i][3],asientos[i][4],asientos[i][5]);
   }
@@ -150,7 +150,7 @@ char *getReservationSeat(){
   while (valid==1){
     clrScreen();
     printf("Vuelo #%s\n", flight_number);
-    printf("Ingrese el numero de asiento que desea reservar: \n");
+    printf("Ingrese el numero de asiento que desea reservar:\n");
     gets(seat);
 
     valid = validateSeat(seat);
@@ -278,3 +278,16 @@ void showSummary(){
   printf("Asientos Libres: %d/192 [%.1f%%]\n", libres, porcentajeLibres);
 }
 
+//Bono
+void suggestSeat(){
+  char letras[6]= {'A','B','C','D','E','F'};
+  int stop = 0;
+  for (int i = 0; i <32 && stop ==0; i++){
+    for (int j= 0; j < 6 && stop==0; j++){
+      if (asientos[i][j]=='0'){
+        printf("Asiento sugerido es: '%c%d'\n",letras[j],i+1);
+        stop =1;
+      }
+    }
+  }
+}
